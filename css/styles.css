@@ -124,3 +124,195 @@ body {
     border-color: var(--color-primario);
     color: var(--color-claro);
 }
+.barra-estado {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+}
+.dato-estado {
+    font-size: 0.95rem;
+}
+.dato-resaltado {
+    font-weight: 700;
+}
+.zona-pistas {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.foto-secreta {
+    width: 120px;
+    border-radius: 8px;
+}
+.desenfoque-8 {
+    filter: blur(16px);
+}
+.desenfoque-7 {
+    filter: blur(14px);
+}
+.desenfoque-6 {
+    filter: blur(12px);
+}
+.desenfoque-5 {
+    filter: blur(10px);
+}
+.desenfoque-4 {
+    filter: blur(8px);
+}
+.desenfoque-3 {
+    filter: blur(6px);
+}
+.desenfoque-2 {
+    filter: blur(4px);
+}
+.desenfoque-1 {
+    filter: blur(2px);
+}
+.desenfoque-0 {
+    filter: blur(0);
+}
+.lista-pistas {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.pista {
+    color: var(--color-texto-suave);
+    font-size: 0.95rem;
+}
+.zona-busqueda {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+.contenedor-autocompletado {
+    display: flex;
+    position: relative;
+    flex: 1;
+    flex-direction: column;
+}
+.lista-autocompletado {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    flex-direction: column;
+    max-height: 240px;
+    margin-top: 4px;
+    background-color: var(--color-panel);
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    overflow-y: auto;
+}
+.opcion-autocompletado {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.opcion-autocompletado:hover {
+    background-color: var(--color-fondo);
+}
+.contenedor-tablero {
+    display: flex;
+    overflow-x: auto;
+}
+.tablero {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 640px;
+}
+.fila {
+    display: flex;
+    gap: 6px;
+}
+.fila-encabezado {
+    font-weight: 700;
+}
+.cuerpo-tablero {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.celda {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    min-height: 48px;
+    padding: 8px 6px;
+    background-color: var(--color-fondo);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+.celda-jugador {
+    flex: 1.6;
+}
+.foto-intento {
+    width: 32px;
+    border-radius: 50%;
+}
+.logo-club {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+.celda-verde {
+    background-color: var(--color-verde);
+    color: var(--color-claro);
+}
+.celda-roja {
+    background-color: var(--color-rojo);
+    color: var(--color-claro);
+}
+.celda-neutra {
+    background-color: var(--color-neutro);
+    color: var(--color-claro);
+}
+.pie {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    background-color: var(--color-encabezado);
+    color: var(--color-claro);
+}
+.texto-pie {
+    font-size: 0.85rem;
+}
+.modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--color-sombra);
+}
+.modal-contenido {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 80vh;
+    padding: 24px;
+    background-color: var(--color-panel);
+    border-radius: 12px;
+    overflow-y: auto;
+}
+.modal-amplio {
+    max-width: 640px;
+}
+.texto-modal {
+    color: var(--color-texto-suave);
+}
