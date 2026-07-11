@@ -102,3 +102,53 @@ function calcularPuntaje(gano, dificultad, intentosUsados, duracionSegundos) {
     }
     return puntaje;
 }
+function compararCategoria(valorIntento, valorSecreto) {
+    if (valorIntento === valorSecreto) {
+        return "verde";
+    }
+    return "rojo";
+}
+function compararNumerico(valorIntento, valorSecreto) {
+    if (valorIntento === valorSecreto) {
+        return "verde";
+    }
+    if (valorSecreto > valorIntento) {
+        return "arriba";
+    }
+    return "abajo";
+}
+function compararJugadores(intento, secreto) {
+    return {
+        nacionalidad: compararCategoria(intento.nationality, secreto.nationality),
+        club: compararCategoria(intento.club, secreto.club),
+        posicion: compararCategoria(intento.position, secreto.position),
+        edad: compararNumerico(intento.age, secreto.age),
+        overall: compararNumerico(intento.overall, secreto.overall),
+        altura: compararNumerico(intento.heightCm, secreto.heightCm)
+    };
+}
+function contarAciertos(comparacion) {
+    var claves;
+    var indice;
+    var total;
+    claves = ["nacionalidad", "club", "posicion", "edad", "overall", "altura"];
+    total = 0;
+    for (indice = 0; indice < claves.length; indice = indice + 1) {
+        if (comparacion[claves[indice]] === "verde") {
+            total = total + 1;
+        }
+    }
+    return total;
+}
+function esIntentoRepetido(jugador) {
+    var indice;
+    for (indice = 0; indice < intentosRealizados.length; indice = indice + 1) {
+        if (intentosRealizados[indice].id === jugador.id) {
+            return true;
+        }
+    }
+    return false;
+}
+function obtenerIntentosRestantes() {
+    return MAXIMO_INTENTOS - intentosRealizados.length;
+}
