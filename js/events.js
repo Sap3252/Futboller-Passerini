@@ -518,3 +518,102 @@ function manejarClicCerrarModalResultado() {
 function manejarClicCerrarModalHistorial() {
     ocultarElemento(modalHistorial);
 }
+
+function aplicarTema(nombreTema) {
+    if (nombreTema === "oscuro") {
+        document.body.classList.add("tema-oscuro");
+        if (botonTema !== null) {
+            botonTema.textContent = "Modo claro";
+        }
+    } else {
+        document.body.classList.remove("tema-oscuro");
+        if (botonTema !== null) {
+            botonTema.textContent = "Modo oscuro";
+        }
+    }
+}
+function aplicarTemaGuardado() {
+    var temaGuardado;
+    temaGuardado = localStorage.getItem(CLAVE_TEMA);
+    if (temaGuardado === "oscuro") {
+        aplicarTema("oscuro");
+    } else {
+        aplicarTema("claro");
+    }
+}
+function manejarClicTema() {
+    if (document.body.classList.contains("tema-oscuro")) {
+        aplicarTema("claro");
+        localStorage.setItem(CLAVE_TEMA, "claro");
+    } else {
+        aplicarTema("oscuro");
+        localStorage.setItem(CLAVE_TEMA, "oscuro");
+    }
+}
+function crearRegistroHistorial(partida) {
+    var elemento;
+    elemento = document.createElement("li");
+    elemento.className = "registro-historial";
+    elemento.textContent = partida.fecha + " | " + partida.nombre + " | " + partida.dificultad + " | " + partida.resultado + " | Intentos: " + partida.intentos + " | Duración: " + formatearDuracion(partida.duracion) + " | Puntaje: " + partida.puntaje;
+    return elemento;
+}
+function renderizarHistorial(historial) {
+    var indice;
+    var vacio;
+    vaciarElemento(listaHistorial);
+    if (historial.length === 0) {
+        vacio = document.createElement("li");
+        vacio.className = "registro-historial";
+        vacio.textContent = "Todavía no hay partidas guardadas.";
+        listaHistorial.appendChild(vacio);
+        return;
+    }
+    for (indice = 0; indice < historial.length; indice = indice + 1) {
+        listaHistorial.appendChild(crearRegistroHistorial(historial[indice]));
+    }
+}
+function manejarClicHistorial() {
+    renderizarHistorial(obtenerHistorial().slice().sort(compararPorFecha));
+    mostrarElemento(modalHistorial);
+}
+function manejarClicOrdenarFecha() {
+    renderizarHistorial(obtenerHistorial().slice().sort(compararPorFecha));
+}
+function manejarClicOrdenarIntentos() {
+    renderizarHistorial(obtenerHistorial().slice().sort(compararPorIntentos));
+}
+function ocultarErroresContacto() {
+    ocultarElemento(errorNombreContacto);
+    ocultarElemento(errorCorreoContacto);
+    ocultarElemento(errorMensajeContacto);
+}
+function manejarEnvioContacto(evento) {
+    var nombre;
+    var correo;
+    var mensaje;
+    var valido;
+    var direccion;
+    evento.preventDefault();
+    nombre = entradaNombreContacto.value.trim();
+    correo = entradaCorreoContacto.value.trim();
+    mensaje = entradaMensajeContacto.value.trim();
+    valido = true;
+    ocultarErroresContacto();
+    if (!EXPRESION_NOMBRE_CONTACTO.test(nombre)) {
+        mostrarElemento(errorNombreContacto);
+        valido = false;
+    }
+    if (!EXPRESION_CORREO.test(correo)) {
+        mostrarElemento(errorCorreoContacto);
+        valido = false;
+    }
+    if (mensaje.length <= 5) {
+        mostrarElemento(errorMensajeContacto);
+        valido = false;
+    }
+    if (!valido) {
+        return;
+    }
+    direccion = "mailto:" + CORREO_CONTACTO + "?subject=" + encodeURIComponent("Contacto Futboller de " + nombre) + "&body=" + encodeURIComponent(mensaje + " (Responder a: " + correo + ")");
+    window.location.href = direccion;
+}
