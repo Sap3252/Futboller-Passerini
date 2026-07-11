@@ -305,3 +305,216 @@ function reiniciarPistas() {
         fotoSecreta.className = "foto-secreta oculto";
     }
 }
+
+function reproducirSonidoAcierto() {
+    reproducirAudio(audioAcierto);
+}
+
+function reproducirSonidoInicio() {
+    reproducirAudio(audioInicio);
+}
+
+function reproducirSonidoExplosion() {
+    reproducirAudio(audioExplosion);
+}
+
+function prepararPartida(jugador) {
+    jugadorSecreto = jugador;
+    intentosRealizados = [];
+    partidaTerminada = false;
+    jugadorSeleccionado = null;
+    momentoInicio = null;
+    detenerTemporizador();
+    textoTemporizador.textContent = "00:00";
+    vaciarElemento(cuerpoTablero);
+    entradaBusqueda.value = "";
+    ocultarAutocompletado();
+    actualizarContadorIntentos();
+    textoJugador.textContent = "Jugador: " + nombreJugadorHumano + " | Dificultad: " + obtenerEtiquetaDificultad(dificultadActual);
+    reiniciarPistas();
+    reproducirSonidoInicio();
+    ocultarElemento(seccionInicio);
+    mostrarElemento(seccionJuego);
+}
+
+function reiniciarGifExplosion() {
+    var fuente;
+    fuente = gifExplosion.getAttribute("src").split("?")[0];
+    gifExplosion.setAttribute("src", fuente + "?t=" + Date.now());
+}
+
+function revelarFotoResultado() {
+    fotoModalResultado.className = "foto-resultado desenfoque-0";
+}
+
+function ocultarGifExplosion() {
+    ocultarElemento(gifExplosion);
+}
+
+function iniciarRevelacionConExplosion() {
+    if (revelacionRealizada) {
+        return;
+    }
+    revelacionRealizada = true;
+    if (idRespaldoRevelacion !== null) {
+        clearTimeout(idRespaldoRevelacion);
+        idRespaldoRevelacion = null;
+    }
+    if (audioFinActual !== null) {
+        audioFinActual.removeEventListener("ended", iniciarRevelacionConExplosion);
+        audioFinActual = null;
+    }
+    reiniciarGifExplosion();
+    mostrarElemento(gifExplosion);
+    reproducirSonidoExplosion();
+    setTimeout(revelarFotoResultado, 500);
+    setTimeout(ocultarGifExplosion, 1000);
+}
+
+function terminarPartida(gano) {
+    var duracion;
+    var puntaje;
+    var partida;
+    partidaTerminada = true;
+    revelacionRealizada = false;
+    duracion = calcularDuracionSegundos();
+    detenerTemporizador();
+    puntaje = calcularPuntaje(gano, dificultadActual, intentosRealizados.length, duracion);
+    partida = {
+        nombre: nombreJugadorHumano,
+        resultado: gano ? "Ganó" : "Perdió",
+        intentos: intentosRealizados.length,
+        fecha: formatearFecha(new Date()),
+        marcaTiempo: Date.now(),
+        duracion: duracion,
+        puntaje: puntaje,
+        dificultad: obtenerEtiquetaDificultad(dificultadActual)
+    };
+    guardarPartidaEnHistorial(partida);
+    if (dificultadActual === "facil") {
+        fotoSecreta.className = "foto-secreta desenfoque-0";
+    }
+    fotoModalResultado.src = jugadorSecreto.photo;
+    fotoModalResultado.className = "foto-resultado desenfoque-8";
+    mostrarElemento(modalResultado);
+    if (gano) {
+        tituloModalResultado.textContent = "¡Ganaste!";
+        textoModalResultado.textContent = "Adivinaste a " + jugadorSecreto.name + " en " + intentosRealizados.length + " intento(s). Puntaje: " + puntaje + ".";
+        audioFinActual = audioVictoria;
+    } else {
+        tituloModalResultado.textContent = "Perdiste";
+        textoModalResultado.textContent = "Se agotaron los intentos. El jugador secreto era " + jugadorSecreto.name + ". Puntaje: 0.";
+        audioFinActual = audioDerrota;
+    }
+    audioFinActual.addEventListener("ended", iniciarRevelacionConExplosion);
+    reproducirAudio(audioFinActual);
+    idRespaldoRevelacion = setTimeout(iniciarRevelacionConExplosion, 1800);
+}
+
+function procesarIntentoConJugador(jugador) {
+    var comparacion;
+    if (esIntentoRepetido(jugador)) {
+        mostrarModalMensaje("Intento repetido", "Ya intentaste con " + jugador.name + " en esta partida. Probá con otro jugador.");
+        return;
+    }
+    if (intentosRealizados.length === 0) {
+        iniciarTemporizador();
+    }
+    intentosRealizados.push(jugador);
+    comparacion = compararJugadores(jugador, jugadorSecreto);
+    agregarFilaTablero(jugador, comparacion);
+    actualizarContadorIntentos();
+    entradaBusqueda.value = "";
+    jugadorSeleccionado = null;
+    ocultarAutocompletado();
+    if (jugador.id === jugadorSecreto.id) {
+        terminarPartida(true);
+        return;
+    }
+    if (contarAciertos(comparacion) > 0) {
+        reproducirSonidoAcierto();
+    }
+    if (obtenerIntentosRestantes() === 0) {
+        terminarPartida(false);
+        return;
+    }
+    actualizarFotoPista();
+    actualizarPistasProgresivas();
+}
+
+function manejarResultadoBusquedaIntento(jugadores) {
+    var indice;
+    var encontrado;
+    encontrado = null;
+    for (indice = 0; indice < jugadores.length; indice = indice + 1) {
+        if (jugadores[indice].name.toLowerCase() === textoIntentoPendiente.toLowerCase()) {
+            encontrado = jugadores[indice];
+        }
+    }
+    if (encontrado === null) {
+        mostrarModalMensaje("Jugador inexistente", "El nombre ingresado no existe en el dataset. Seleccioná un jugador del autocompletado.");
+        return;
+    }
+    procesarIntentoConJugador(encontrado);
+}
+
+function manejarClicIntentar() {
+    var texto;
+    if (jugadorSecreto === null) {
+        return;
+    }
+    if (partidaTerminada) {
+        mostrarModalMensaje("Partida terminada", "La partida ya terminó. Reiniciá para jugar de nuevo.");
+        return;
+    }
+    texto = entradaBusqueda.value.trim();
+    if (texto === "") {
+        mostrarModalMensaje("Intento vacío", "Escribí el nombre de un jugador antes de intentar.");
+        return;
+    }
+    if (jugadorSeleccionado !== null && jugadorSeleccionado.name.toLowerCase() === texto.toLowerCase()) {
+        procesarIntentoConJugador(jugadorSeleccionado);
+        return;
+    }
+    textoIntentoPendiente = texto;
+    buscarJugadores(texto, 25, manejarResultadoBusquedaIntento, manejarErrorRed);
+}
+
+function manejarTeclaBusqueda(evento) {
+    if (evento.key === "Enter") {
+        manejarClicIntentar();
+    }
+}
+
+function manejarClicComenzar() {
+    var nombre;
+    nombre = entradaNombreHumano.value.trim();
+    if (!EXPRESION_NOMBRE_JUEGO.test(nombre)) {
+        mostrarModalMensaje("Nombre inválido", "Ingresá un nombre alfanumérico de al menos 3 letras para comenzar.");
+        return;
+    }
+    nombreJugadorHumano = nombre;
+    dificultadActual = selectorDificultad.value;
+    obtenerJugadorAleatorio(prepararPartida, manejarErrorRed);
+}
+
+function manejarClicReiniciar() {
+    obtenerJugadorAleatorio(prepararPartida, manejarErrorRed);
+}
+
+function manejarClicNuevaPartida() {
+    ocultarElemento(modalResultado);
+    manejarClicReiniciar();
+}
+
+function manejarClicCerrarModalMensaje() {
+    ocultarElemento(modalMensaje);
+}
+
+function manejarClicCerrarModalResultado() {
+    ocultarElemento(modalResultado);
+}
+
+function manejarClicCerrarModalHistorial() {
+    ocultarElemento(modalHistorial);
+}
