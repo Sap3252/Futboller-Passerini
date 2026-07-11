@@ -254,6 +254,32 @@ function crearCeldaComparada(texto, resultado) {
     return celda;
 }
 
+function crearCeldaNacionalidad(jugador, resultado) {
+    var celda;
+    var bandera;
+    var nombre;
+    var clase;
+    celda = document.createElement("div");
+    bandera = document.createElement("img");
+    nombre = document.createElement("span");
+    clase = "celda";
+    if (resultado === "verde") {
+        clase = clase + " celda-verde";
+    } else if (resultado === "rojo") {
+        clase = clase + " celda-roja";
+    }
+    celda.className = clase;
+    bandera.className = "logo-club";
+    bandera.alt = jugador.nationality;
+    bandera.setAttribute("referrerpolicy", "no-referrer");
+    bandera.onerror = ocultarImagenRota;
+    bandera.src = jugador.flag;
+    nombre.textContent = jugador.nationality;
+    celda.appendChild(bandera);
+    celda.appendChild(nombre);
+    return celda;
+}
+
 function crearCeldaClub(jugador, resultado) {
     var celda;
     var logo;
@@ -285,7 +311,7 @@ function agregarFilaTablero(jugador, comparacion) {
     fila = document.createElement("div");
     fila.className = "fila";
     fila.appendChild(crearCeldaJugador(jugador));
-    fila.appendChild(crearCeldaComparada(jugador.nationality, comparacion.nacionalidad));
+    fila.appendChild(crearCeldaNacionalidad(jugador, comparacion.nacionalidad));
     fila.appendChild(crearCeldaClub(jugador, comparacion.club));
     fila.appendChild(crearCeldaComparada(jugador.position, comparacion.posicion));
     fila.appendChild(crearCeldaComparada(String(jugador.age), comparacion.edad));
@@ -308,6 +334,10 @@ function reiniciarPistas() {
 
 function reproducirSonidoAcierto() {
     reproducirAudio(audioAcierto);
+}
+
+function reproducirSonidoError() {
+    reproducirAudio(audioError);
 }
 
 function reproducirSonidoInicio() {
@@ -379,6 +409,7 @@ function terminarPartida(gano) {
     revelacionRealizada = false;
     duracion = calcularDuracionSegundos();
     detenerTemporizador();
+
     puntaje = calcularPuntaje(gano, dificultadActual, intentosRealizados.length, duracion);
     partida = {
         nombre: nombreJugadorHumano,
@@ -390,13 +421,16 @@ function terminarPartida(gano) {
         puntaje: puntaje,
         dificultad: obtenerEtiquetaDificultad(dificultadActual)
     };
+
     guardarPartidaEnHistorial(partida);
     if (dificultadActual === "facil") {
         fotoSecreta.className = "foto-secreta desenfoque-0";
     }
+
     fotoModalResultado.src = jugadorSecreto.photo;
     fotoModalResultado.className = "foto-resultado desenfoque-8";
     mostrarElemento(modalResultado);
+    
     if (gano) {
         tituloModalResultado.textContent = "¡Ganaste!";
         textoModalResultado.textContent = "Adivinaste a " + jugadorSecreto.name + " en " + intentosRealizados.length + " intento(s). Puntaje: " + puntaje + ".";
@@ -427,13 +461,19 @@ function procesarIntentoConJugador(jugador) {
     entradaBusqueda.value = "";
     jugadorSeleccionado = null;
     ocultarAutocompletado();
+
     if (jugador.id === jugadorSecreto.id) {
         terminarPartida(true);
         return;
     }
+
     if (contarAciertos(comparacion) > 0) {
         reproducirSonidoAcierto();
     }
+    else {
+        reproducirSonidoError();
+    }
+
     if (obtenerIntentosRestantes() === 0) {
         terminarPartida(false);
         return;
