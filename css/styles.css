@@ -316,3 +316,87 @@ body {
 .texto-modal {
     color: var(--color-texto-suave);
 }
+.contenedor-revelacion {
+    display: flex;
+    position: relative;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    min-height: 120px;
+}
+.foto-resultado {
+    width: 120px;
+    border-radius: 8px;
+    transition: filter 0.4s ease;
+}
+.gif-explosion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    max-width: 200px;
+    transform: translate(-50%, -50%);
+}
+.acciones-modal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.lista-historial {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.registro-historial {
+    padding: 10px 12px;
+    background-color: var(--color-fondo);
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.mensaje-error {
+    color: var(--color-rojo);
+    font-size: 0.85rem;
+}
+.oculto {
+    display: none;
+}
+body.tema-oscuro {
+    --color-fondo: #131a15;
+    --color-panel: #1c2620;
+    --color-borde: #33423a;
+    --color-texto: #e6ede8;
+    --color-texto-suave: #9db3a5;
+    --color-primario: #2e9d5c;
+    --color-encabezado: #0a1710;
+}
+@media (max-width: 720px) {
+    .encabezado {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .barra-estado {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .zona-pistas {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .zona-busqueda {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .boton-primario {
+        align-self: stretch;
+    }
+    .tablero {
+        min-width: 560px;
+    }
+}
