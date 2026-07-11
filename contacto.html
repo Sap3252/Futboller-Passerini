@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futboller - Contacto</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/pelota-logo.png" type="image/png">
+    
+</head>
+<body>
+    <header class="encabezado">
+        <div class="marca">
+            <img class="logo" src="img/pelota-logo.png" alt="Logo de Futboller" width="80" height="80">
+            <h1 class="titulo-principal">Futboller</h1>
+        </div>
+        <nav class="navegacion">
+            <a class="enlace-navegacion" href="index.html">Juego</a>
+            <a class="enlace-navegacion" href="contacto.html">Contacto</a>
+            <a class="enlace-navegacion" href="https://github.com/Sap3252/Futboller" target="_blank" rel="noopener">GitHub</a>
+            <button class="boton-tema" id="botonTema" type="button">Modo oscuro</button>
+        </nav>
+    </header>
+    <main class="contenido">
+        <section class="panel">
+            <h2 class="subtitulo">Contacto</h2>
+            <p class="texto-descripcion">Completá el formulario y al enviarlo se abrirá tu cliente de correo predeterminado.</p>
+            <form class="formulario" id="formularioContacto">
+                <div class="campo">
+                    <label class="etiqueta" for="entradaNombreContacto">Nombre</label>
+                    <input class="entrada" id="entradaNombreContacto" type="text" maxlength="50">
+                    <span class="mensaje-error oculto" id="errorNombreContacto">El nombre es obligatorio y solo admite letras y números.</span>
+                </div>
+                <div class="campo">
+                    <label class="etiqueta" for="entradaCorreoContacto">Correo electrónico</label>
+                    <input class="entrada" id="entradaCorreoContacto" type="text" maxlength="80">
+                    <span class="mensaje-error oculto" id="errorCorreoContacto">Ingresá una dirección de correo válida.</span>
+                </div>
+                <div class="campo campo-amplio">
+                    <label class="etiqueta" for="entradaMensajeContacto">Mensaje</label>
+                    <textarea class="entrada area-mensaje" id="entradaMensajeContacto" rows="5"></textarea>
+                    <span class="mensaje-error oculto" id="errorMensajeContacto">El mensaje debe tener más de 5 caracteres.</span>
+                </div>
+                <button class="boton boton-primario" type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+    <footer class="pie">
+        <p class="texto-pie">Proyecto Final - Desarrollo y Arquitecturas Web - Santiago Passerini</p>
+    </footer>
+    <script src="js/events.js"></script>
+    <script src="js/init.js"></script>
+</body>
+</html>

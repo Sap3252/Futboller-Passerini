@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Futboller - Adiviná el jugador</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/pelota-logo.png" type="image/png">
+
+</head>
+<body>
+    <header class="encabezado">
+        <div class="marca">
+            <img class="logo" src="img/pelota-logo.png" alt="Logo de Futboller" width="80" height="80">
+            <h1 class="titulo-principal">Futboller</h1>
+        </div>
+        <nav class="navegacion">
+            <a class="enlace-navegacion" href="index.html">Juego</a>
+            <a class="enlace-navegacion" href="contacto.html">Contacto</a>
+            <a class="enlace-navegacion" href="https://github.com/Sap3252/Futboller" target="_blank" rel="noopener">GitHub</a>
+            <button class="boton-tema" id="botonTema" type="button">Modo oscuro</button>
+        </nav>
+
+    </header>
+
+    <main class="contenido">
+        <section class="panel" id="seccionInicio">
+            <h2 class="subtitulo">Nueva partida</h2>
+            <p class="texto-descripcion">Adiviná al jugador secreto en 8 intentos usando las pistas de cada atributo.</p>
+            <div class="campo">
+                <label class="etiqueta" for="entradaNombreHumano">Tu nombre</label>
+                <input class="entrada" id="entradaNombreHumano" type="text" maxlength="30" placeholder="Al menos 3 letras">
+            </div>
+            <div class="campo">
+                <label class="etiqueta" for="selectorDificultad">Dificultad</label>
+                <select class="entrada" id="selectorDificultad">
+                    <option value="facil">Fácil (foto desenfocada como pista)</option>
+                    <option value="medio">Medio (se revelan cualidades)</option>
+                    <option value="dificil">Difícil (sin pistas adicionales)</option>
+                </select>
+            </div>
+        <button class="boton boton-primario" id="botonComenzar" type="button">Comenzar partida</button>
+</section>
+        <section class="panel oculto" id="seccionJuego">
+            <div class="barra-estado">
+                <p class="dato-estado" id="textoJugador"></p>
+                <p class="dato-estado">Intentos restantes: <span class="dato-resaltado" id="contadorIntentos">8</span></p>
+                <p class="dato-estado">Tiempo: <span class="dato-resaltado" id="textoTemporizador">00:00</span></p>
+                <button class="boton" id="botonReiniciar" type="button">Reiniciar</button>
+                <button class="boton" id="botonHistorial" type="button">Historial</button>
+            </div>
+            <div class="zona-pistas">
+                <img class="foto-secreta desenfoque-8 oculto" id="fotoSecreta" alt="Foto del jugador secreto" referrerpolicy="no-referrer" onerror="if (this.src.indexOf('personaje-placeholder') === -1) { this.src = 'img/personaje-placeholder.jpg'; }">
+                <ul class="lista-pistas">
+                    <li class="pista oculto" id="pistaAltura">Altura: <span id="valorPistaAltura"></span></li>
+                    <li class="pista oculto" id="pistaEdad">Edad: <span id="valorPistaEdad"></span></li>
+                    <li class="pista oculto" id="pistaOverall">Overall: <span id="valorPistaOverall"></span></li>
+                </ul>
+            </div>
+            <div class="zona-busqueda" id="zonaBusqueda">
+                <div class="contenedor-autocompletado">
+                    <input class="entrada" id="entradaBusqueda" type="text" autocomplete="off" placeholder="Escribí el nombre de un jugador">
+                    <ul class="lista-autocompletado oculto" id="listaAutocompletado"></ul>
+                </div>
+                <button class="boton boton-primario" id="botonIntentar" type="button">Intentar</button>
+            </div>
+            <div class="contenedor-tablero">
+                <div class="tablero">
+                    <div class="fila fila-encabezado">
+                        <div class="celda celda-jugador">Jugador</div>
+                        <div class="celda">Nacionalidad</div>
+                        <div class="celda">Club</div>
+                        <div class="celda">Posición</div>
+                        <div class="celda">Edad</div>
+                        <div class="celda">Overall</div>
+                        <div class="celda">Altura</div>
+                    </div>
+                    <div class="cuerpo-tablero" id="cuerpoTablero"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="pie">
+        <p class="texto-pie">Proyecto Final - Desarrollo y Arquitecturas Web - Santiago Passerini</p>
+    </footer>
+    <div class="modal oculto" id="modalMensaje">
+        <div class="modal-contenido">
+            <h2 class="subtitulo" id="tituloModalMensaje"></h2>
+            <p class="texto-modal" id="textoModalMensaje"></p>
+            <button class="boton boton-primario" id="botonCerrarModalMensaje" type="button">Cerrar</button>
+        </div>
+    </div>
+    <div class="modal oculto" id="modalResultado">
+        <div class="modal-contenido">
+            <h2 class="subtitulo" id="tituloModalResultado"></h2>
+            <div class="contenedor-revelacion" id="contenedorRevelacion">
+                <img class="foto-resultado desenfoque-8" id="fotoModalResultado" alt="Foto del jugador secreto" referrerpolicy="no-referrer" onerror="if (this.src.indexOf('personaje-placeholder') === -1) { this.src = 'img/personaje-placeholder.jpg'; }">
+                <img class="gif-explosion oculto" id="gifExplosion" src="img/gif-explosion-revelacion-personaje.gif" alt="Explosión de revelación">
+            </div>
+            <p class="texto-modal" id="textoModalResultado"></p>
+            <div class="acciones-modal">
+                <button class="boton boton-primario" id="botonNuevaPartida" type="button">Nueva partida</button>
+                <button class="boton" id="botonCerrarModalResultado" type="button">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal oculto" id="modalHistorial">
+        <div class="modal-contenido modal-amplio">
+            <h2 class="subtitulo">Historial de partidas</h2>
+            <div class="acciones-modal">
+                <button class="boton" id="botonOrdenarFecha" type="button">Ordenar por fecha</button>
+                <button class="boton" id="botonOrdenarIntentos" type="button">Ordenar por intentos</button>
+            </div>
+            <ul class="lista-historial" id="listaHistorial"></ul>
+            <button class="boton boton-primario" id="botonCerrarModalHistorial" type="button">Cerrar</button>
+        </div>
+    </div>
+    
+    <audio id="audioDerrota" src="sonidos/sonido-derrota.mp3" preload="auto"></audio>
+    <audio id="audioAcierto" src="sonidos/sonido-acierto.mp3" preload="auto"></audio>
+    <audio id="audioError" src="sonidos/sonido-error.mp3" preload="auto"></audio>
+    <audio id="audioVictoria" src="sonidos/sonido-victoria.mp3" preload="auto"></audio>
+    <audio id="audioInicio" src="sonidos/sonido-iniciar-partida.mp3" preload="auto"></audio>
+    <audio id="audioExplosion" src="sonidos/sonido-explosion-revelacion-personaje.mp3" preload="auto"></audio>
+
+    <script src="js/endpoints.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/init.js"></script>
+
+</body>
+</html>
