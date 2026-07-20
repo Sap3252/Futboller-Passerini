@@ -376,6 +376,19 @@ body.tema-oscuro {
     --color-primario: #2e9d5c;
     --color-encabezado: #0a1710;
 }
+
+.logo-oscuro {
+    display: none;
+}
+
+.tema-oscuro .logo-claro {
+    display: none;
+}
+
+.tema-oscuro .logo-oscuro {
+    display: inline-block;
+}
+
 @media (max-width: 720px) {
     .encabezado {
         flex-direction: column;
