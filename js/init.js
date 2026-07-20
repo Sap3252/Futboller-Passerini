@@ -54,11 +54,13 @@ function inicializarReferencias() {
     errorCorreoContacto = document.getElementById("errorCorreoContacto");
     errorMensajeContacto = document.getElementById("errorMensajeContacto");
 }
+
 function inicializarEventosComunes() {
     if (botonTema !== null) {
         botonTema.addEventListener("click", manejarClicTema);
     }
 }
+
 function inicializarEventosJuego() {
     if (botonComenzar === null) {
         return;
@@ -77,12 +79,14 @@ function inicializarEventosJuego() {
     botonCerrarModalHistorial.addEventListener("click", manejarClicCerrarModalHistorial);
     document.addEventListener("click", manejarClicDocumento);
 }
+
 function inicializarEventosContacto() {
     if (formularioContacto === null) {
         return;
     }
     formularioContacto.addEventListener("submit", manejarEnvioContacto);
 }
+
 function inicializar() {
     inicializarReferencias();
     aplicarTemaGuardado();
@@ -90,4 +94,5 @@ function inicializar() {
     inicializarEventosJuego();
     inicializarEventosContacto();
 }
+
 inicializar();

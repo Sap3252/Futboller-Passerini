@@ -6,17 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="img/pelota-logo.png" type="image/png">
+    <link rel="icon" href="img/pelota-logo.png?v=2" type="image/png">
 
 </head>
+
 <body>
+
     <header class="encabezado">
-        <div class="marca">
+        <a class="marca" href="index.html">
             <img class="logo" src="img/pelota-logo.png" alt="Logo de Futboller" width="80" height="80">
             <h1 class="titulo-principal">Futboller</h1>
-        </div>
+        </a>
         <nav class="navegacion">
-            <a class="enlace-navegacion" href="index.html">Juego</a>
             <a class="enlace-navegacion" href="contacto.html">Contacto</a>
             <a class="enlace-navegacion" href="https://github.com/Sap3252/Futboller" target="_blank" rel="noopener">GitHub</a>
             <button class="boton-tema" id="botonTema" type="button">Modo oscuro</button>
@@ -42,6 +43,7 @@
             </div>
         <button class="boton boton-primario" id="botonComenzar" type="button">Comenzar partida</button>
 </section>
+
         <section class="panel oculto" id="seccionJuego">
             <div class="barra-estado">
                 <p class="dato-estado" id="textoJugador"></p>
@@ -50,6 +52,7 @@
                 <button class="boton" id="botonReiniciar" type="button">Reiniciar</button>
                 <button class="boton" id="botonHistorial" type="button">Historial</button>
             </div>
+
             <div class="zona-pistas">
                 <img class="foto-secreta desenfoque-8 oculto" id="fotoSecreta" alt="Foto del jugador secreto" referrerpolicy="no-referrer" onerror="if (this.src.indexOf('personaje-placeholder') === -1) { this.src = 'img/personaje-placeholder.jpg'; }">
                 <ul class="lista-pistas">
@@ -58,6 +61,7 @@
                     <li class="pista oculto" id="pistaOverall">Overall: <span id="valorPistaOverall"></span></li>
                 </ul>
             </div>
+
             <div class="zona-busqueda" id="zonaBusqueda">
                 <div class="contenedor-autocompletado">
                     <input class="entrada" id="entradaBusqueda" type="text" autocomplete="off" placeholder="Escribí el nombre de un jugador">
@@ -65,6 +69,7 @@
                 </div>
                 <button class="boton boton-primario" id="botonIntentar" type="button">Intentar</button>
             </div>
+
             <div class="contenedor-tablero">
                 <div class="tablero">
                     <div class="fila fila-encabezado">
@@ -79,8 +84,11 @@
                     <div class="cuerpo-tablero" id="cuerpoTablero"></div>
                 </div>
             </div>
+
         </section>
+
     </main>
+
     <footer class="pie">
         <p class="texto-pie">Proyecto Final - Desarrollo y Arquitecturas Web - Santiago Passerini</p>
     </footer>

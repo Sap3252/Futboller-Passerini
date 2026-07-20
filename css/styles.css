@@ -22,8 +22,9 @@ body {
 }
 .encabezado {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 12px;
     padding: 16px 24px;
@@ -378,7 +379,7 @@ body.tema-oscuro {
 @media (max-width: 720px) {
     .encabezado {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
     }
     .barra-estado {
         flex-direction: column;
